@@ -87,8 +87,6 @@ public class SCAOperationServiceImpl implements SCAOperationService {
     @Override
     public Mono<Void> triggerSCA(Long operationId) {
 
-        // Here is where we need to call to the notification system to launch the SMS
-
         return repository.findById(operationId)
                 .flatMap(existing -> {
                     existing.setStatus(SCAStatusEnum.PENDING);
