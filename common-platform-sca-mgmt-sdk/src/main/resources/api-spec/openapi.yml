@@ -954,6 +954,7 @@ components:
             - PASSWORD_CHANGE
             - LOGIN
             - LOAN_REQUEST
+            - ONBOARDING
             - OTHER
         partyId:
           type: string
