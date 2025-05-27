@@ -18,6 +18,8 @@
         <module>common-platform-sca-mgmt-interfaces</module>
         <module>common-platform-sca-mgmt-models</module>
         <module>common-platform-sca-mgmt-web</module>
+        <module>common-platform-sca-mgmt-sdk</module>
+
     </modules>
 
     <properties>
