@@ -53,6 +53,11 @@
             </dependency>
             <dependency>
                 <groupId>com.catalis</groupId>
+                <artifactId>common-platform-sca-mgmt-sdk</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.catalis</groupId>
                 <artifactId>common-platform-notification-services-interfaces</artifactId>
                 <version>${project.version}</version>
             </dependency>
