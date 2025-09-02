@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -26,7 +27,7 @@ public class SCAChallengeServiceImpl implements SCAChallengeService {
     private SCAChallengeMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<SCAChallengeDTO>> findAllByOperationId(Long operationId, PaginationRequest paginationRequest) {
+    public Mono<PaginationResponse<SCAChallengeDTO>> findAllByOperationId(UUID operationId, PaginationRequest paginationRequest) {
         return PaginationUtils.paginateQuery(
                 paginationRequest,
                 mapper::toDTO,
@@ -36,21 +37,21 @@ public class SCAChallengeServiceImpl implements SCAChallengeService {
     }
 
     @Override
-    public Mono<SCAChallengeDTO> create(Long operationId, SCAChallengeDTO dto) {
+    public Mono<SCAChallengeDTO> create(UUID operationId, SCAChallengeDTO dto) {
         SCAChallenge entity = mapper.toEntity(dto);
         entity.setScaOperationId(operationId);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAChallengeDTO> findById(Long operationId, Long challengeId) {
+    public Mono<SCAChallengeDTO> findById(UUID operationId, UUID challengeId) {
         return repository.findById(challengeId)
                 .filter(challenge -> challenge.getScaOperationId().equals(operationId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAChallengeDTO> update(Long operationId, Long challengeId, SCAChallengeDTO dto) {
+    public Mono<SCAChallengeDTO> update(UUID operationId, UUID challengeId, SCAChallengeDTO dto) {
         return repository.findById(challengeId)
                 .filter(challenge -> challenge.getScaOperationId().equals(operationId))
                 .flatMap(existingChallenge -> {
@@ -62,21 +63,21 @@ public class SCAChallengeServiceImpl implements SCAChallengeService {
     }
 
     @Override
-    public Mono<Void> delete(Long operationId, Long challengeId) {
+    public Mono<Void> delete(UUID operationId, UUID challengeId) {
         return repository.findById(challengeId)
                 .filter(challenge -> challenge.getScaOperationId().equals(operationId))
                 .flatMap(repository::delete);
     }
 
     @Override
-    public Mono<SCAChallengeDTO> findActiveChallengeForOperation(Long operationId) {
+    public Mono<SCAChallengeDTO> findActiveChallengeForOperation(UUID operationId) {
         return repository.findActiveChallengeForOperation(operationId)
                 .map(mapper::toDTO)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("No active challenge found for operation")));
     }
 
     @Override
-    public Mono<ValidationResultDTO> validateChallenge(Long operationId, Long challengeId, String userCode) {
+    public Mono<ValidationResultDTO> validateChallenge(UUID operationId, UUID challengeId, String userCode) {
         return repository.findById(challengeId)
                 .filter(challenge -> challenge.getScaOperationId().equals(operationId))
                 .flatMap(challenge -> {

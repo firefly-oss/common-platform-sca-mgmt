@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,7 +24,7 @@ public class SCAAuditServiceImpl implements SCAAuditService {
     private SCAAuditMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<SCAAuditDTO>> findAllByOperationId(Long operationId, PaginationRequest paginationRequest) {
+    public Mono<PaginationResponse<SCAAuditDTO>> findAllByOperationId(UUID operationId, PaginationRequest paginationRequest) {
         return PaginationUtils.paginateQuery(
                 paginationRequest,
                 mapper::toDTO,
@@ -33,21 +34,21 @@ public class SCAAuditServiceImpl implements SCAAuditService {
     }
 
     @Override
-    public Mono<SCAAuditDTO> create(Long operationId, SCAAuditDTO dto) {
+    public Mono<SCAAuditDTO> create(UUID operationId, SCAAuditDTO dto) {
         SCAAudit entity = mapper.toEntity(dto);
         entity.setScaOperationId(operationId);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAAuditDTO> findById(Long operationId, Long auditId) {
+    public Mono<SCAAuditDTO> findById(UUID operationId, UUID auditId) {
         return repository.findById(auditId)
                 .filter(audit -> audit.getScaOperationId().equals(operationId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAAuditDTO> update(Long operationId, Long auditId, SCAAuditDTO dto) {
+    public Mono<SCAAuditDTO> update(UUID operationId, UUID auditId, SCAAuditDTO dto) {
         return repository.findById(auditId)
                 .filter(audit -> audit.getScaOperationId().equals(operationId))
                 .flatMap(existingAudit -> {
@@ -59,7 +60,7 @@ public class SCAAuditServiceImpl implements SCAAuditService {
     }
 
     @Override
-    public Mono<Void> delete(Long operationId, Long auditId) {
+    public Mono<Void> delete(UUID operationId, UUID auditId) {
         return repository.findById(auditId)
                 .filter(audit -> audit.getScaOperationId().equals(operationId))
                 .flatMap(repository::delete);

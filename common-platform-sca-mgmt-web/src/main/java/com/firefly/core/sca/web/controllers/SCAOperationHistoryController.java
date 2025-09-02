@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Controller for managing historical status changes/events for a given SCA Operation.
@@ -24,7 +25,7 @@ public class SCAOperationHistoryController {
 
     @GetMapping
     public Mono<ResponseEntity<PaginationResponse<SCAOperationHistoryDTO>>> getAllHistory(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @ParameterObject @ModelAttribute PaginationRequest paginationRequest
     ) {
         return historyService.findAllByOperationId(operationId, paginationRequest)
@@ -34,7 +35,7 @@ public class SCAOperationHistoryController {
 
     @PostMapping
     public Mono<ResponseEntity<SCAOperationHistoryDTO>> createHistory(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @RequestBody SCAOperationHistoryDTO dto
     ) {
         return historyService.create(operationId, dto)
@@ -43,8 +44,8 @@ public class SCAOperationHistoryController {
 
     @GetMapping("/{historyId}")
     public Mono<ResponseEntity<SCAOperationHistoryDTO>> getHistory(
-            @PathVariable Long operationId,
-            @PathVariable Long historyId
+            @PathVariable UUID operationId,
+            @PathVariable UUID historyId
     ) {
         return historyService.findById(operationId, historyId)
                 .map(ResponseEntity::ok)
@@ -53,8 +54,8 @@ public class SCAOperationHistoryController {
 
     @PutMapping("/{historyId}")
     public Mono<ResponseEntity<SCAOperationHistoryDTO>> updateHistory(
-            @PathVariable Long operationId,
-            @PathVariable Long historyId,
+            @PathVariable UUID operationId,
+            @PathVariable UUID historyId,
             @RequestBody SCAOperationHistoryDTO dto
     ) {
         return historyService.update(operationId, historyId, dto)
@@ -64,8 +65,8 @@ public class SCAOperationHistoryController {
 
     @DeleteMapping("/{historyId}")
     public Mono<ResponseEntity<Void>> deleteHistory(
-            @PathVariable Long operationId,
-            @PathVariable Long historyId
+            @PathVariable UUID operationId,
+            @PathVariable UUID historyId
     ) {
         return historyService.delete(operationId, historyId)
                 .then(Mono.fromCallable(() -> ResponseEntity.noContent().<Void>build()))

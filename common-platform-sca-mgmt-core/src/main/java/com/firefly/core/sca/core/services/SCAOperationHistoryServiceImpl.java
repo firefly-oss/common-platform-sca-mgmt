@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,7 +24,7 @@ public class SCAOperationHistoryServiceImpl implements SCAOperationHistoryServic
     private SCAOperationHistoryMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<SCAOperationHistoryDTO>> findAllByOperationId(Long operationId, PaginationRequest paginationRequest) {
+    public Mono<PaginationResponse<SCAOperationHistoryDTO>> findAllByOperationId(UUID operationId, PaginationRequest paginationRequest) {
         return PaginationUtils.paginateQuery(
                 paginationRequest,
                 mapper::toDTO,
@@ -33,21 +34,21 @@ public class SCAOperationHistoryServiceImpl implements SCAOperationHistoryServic
     }
 
     @Override
-    public Mono<SCAOperationHistoryDTO> create(Long operationId, SCAOperationHistoryDTO dto) {
+    public Mono<SCAOperationHistoryDTO> create(UUID operationId, SCAOperationHistoryDTO dto) {
         SCAOperationHistory entity = mapper.toEntity(dto);
         entity.setScaOperationId(operationId);
         return repository.save(entity).map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAOperationHistoryDTO> findById(Long operationId, Long historyId) {
+    public Mono<SCAOperationHistoryDTO> findById(UUID operationId, UUID historyId) {
         return repository.findById(historyId)
                 .filter(history -> history.getScaOperationId().equals(operationId))
                 .map(mapper::toDTO);
     }
 
     @Override
-    public Mono<SCAOperationHistoryDTO> update(Long operationId, Long historyId, SCAOperationHistoryDTO dto) {
+    public Mono<SCAOperationHistoryDTO> update(UUID operationId, UUID historyId, SCAOperationHistoryDTO dto) {
         return repository.findById(historyId)
                 .filter(history -> history.getScaOperationId().equals(operationId))
                 .flatMap(existingHistory -> {
@@ -59,7 +60,7 @@ public class SCAOperationHistoryServiceImpl implements SCAOperationHistoryServic
     }
 
     @Override
-    public Mono<Void> delete(Long operationId, Long historyId) {
+    public Mono<Void> delete(UUID operationId, UUID historyId) {
         return repository.findById(historyId)
                 .filter(history -> history.getScaOperationId().equals(operationId))
                 .flatMap(repository::delete);

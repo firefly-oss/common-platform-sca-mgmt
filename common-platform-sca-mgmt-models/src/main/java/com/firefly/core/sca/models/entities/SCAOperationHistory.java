@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Stores a record of status changes or events for each SCA operation.
@@ -17,10 +18,10 @@ public class SCAOperationHistory {
 
     @Id
     @Column("id")
-    private Long id;
+    private UUID id;
 
     @Column("sca_operation_id")
-    private Long scaOperationId;
+    private UUID scaOperationId;
 
     @Column("status")
     private SCAStatusEnum status;

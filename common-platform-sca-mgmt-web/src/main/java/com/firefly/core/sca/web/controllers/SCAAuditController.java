@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Controller for managing audit records for an SCA Operation.
@@ -24,7 +25,7 @@ public class SCAAuditController {
 
     @GetMapping
     public Mono<ResponseEntity<PaginationResponse<SCAAuditDTO>>> getAllAudit(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @ParameterObject @ModelAttribute PaginationRequest paginationRequest
     ) {
         return auditService.findAllByOperationId(operationId, paginationRequest)
@@ -34,7 +35,7 @@ public class SCAAuditController {
 
     @PostMapping
     public Mono<ResponseEntity<SCAAuditDTO>> createAuditEvent(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @RequestBody SCAAuditDTO dto
     ) {
         return auditService.create(operationId, dto)
@@ -43,8 +44,8 @@ public class SCAAuditController {
 
     @GetMapping("/{auditId}")
     public Mono<ResponseEntity<SCAAuditDTO>> getAuditEvent(
-            @PathVariable Long operationId,
-            @PathVariable Long auditId
+            @PathVariable UUID operationId,
+            @PathVariable UUID auditId
     ) {
         return auditService.findById(operationId, auditId)
                 .map(ResponseEntity::ok)
@@ -53,8 +54,8 @@ public class SCAAuditController {
 
     @PutMapping("/{auditId}")
     public Mono<ResponseEntity<SCAAuditDTO>> updateAuditEvent(
-            @PathVariable Long operationId,
-            @PathVariable Long auditId,
+            @PathVariable UUID operationId,
+            @PathVariable UUID auditId,
             @RequestBody SCAAuditDTO dto
     ) {
         return auditService.update(operationId, auditId, dto)
@@ -64,8 +65,8 @@ public class SCAAuditController {
 
     @DeleteMapping("/{auditId}")
     public Mono<ResponseEntity<Void>> deleteAuditEvent(
-            @PathVariable Long operationId,
-            @PathVariable Long auditId
+            @PathVariable UUID operationId,
+            @PathVariable UUID auditId
     ) {
         return auditService.delete(operationId, auditId)
                 .then(Mono.fromCallable(() -> ResponseEntity.noContent().<Void>build()))

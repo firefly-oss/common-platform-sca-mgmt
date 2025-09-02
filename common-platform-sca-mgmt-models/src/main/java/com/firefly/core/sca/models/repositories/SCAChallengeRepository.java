@@ -5,9 +5,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.r2dbc.repository.Query;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
-public interface SCAChallengeRepository extends BaseRepository<SCAChallenge, Long> {
-    Flux<SCAChallenge> findAllByScaOperationId(Long scaOperationId, Pageable pageable);
+public interface SCAChallengeRepository extends BaseRepository<SCAChallenge, UUID> {
+    Flux<SCAChallenge> findAllByScaOperationId(UUID scaOperationId, Pageable pageable);
 
     /**
      * Finds one unexpired, unused challenge for the given operation ID.
@@ -20,6 +21,6 @@ public interface SCAChallengeRepository extends BaseRepository<SCAChallenge, Lon
            AND expires_at > CURRENT_TIMESTAMP
          LIMIT 1
     """)
-    Mono<SCAChallenge> findActiveChallengeForOperation(Long scaOperationId);
-    Mono<Long> countByScaOperationId(Long scaOperationId);
+    Mono<SCAChallenge> findActiveChallengeForOperation(UUID scaOperationId);
+    Mono<Long> countByScaOperationId(UUID scaOperationId);
 }

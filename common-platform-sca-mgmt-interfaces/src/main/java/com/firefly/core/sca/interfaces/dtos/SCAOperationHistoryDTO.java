@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing a record of changes or events for an SCA operation.
@@ -16,8 +17,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @SuperBuilder
 public class SCAOperationHistoryDTO {
-    private Long id;
-    private Long scaOperationId;
+    private UUID id;
+    private UUID scaOperationId;
     private SCAStatusEnum status;
     private LocalDateTime eventTime;
     private String comments;

@@ -6,6 +6,7 @@ import com.firefly.core.sca.interfaces.dtos.SCAChallengeDTO;
 import com.firefly.core.sca.interfaces.dtos.ValidationResultDTO;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Defines operations for handling SCAChallenge records:
@@ -13,15 +14,15 @@ import reactor.core.publisher.Mono;
  */
 public interface SCAChallengeService {
 
-    Mono<PaginationResponse<SCAChallengeDTO>> findAllByOperationId(Long operationId, PaginationRequest paginationRequest);
-    Mono<SCAChallengeDTO> create(Long operationId, SCAChallengeDTO dto);
-    Mono<SCAChallengeDTO> findById(Long operationId, Long challengeId);
-    Mono<SCAChallengeDTO> update(Long operationId, Long challengeId, SCAChallengeDTO dto);
-    Mono<Void> delete(Long operationId, Long challengeId);
-    Mono<SCAChallengeDTO> findActiveChallengeForOperation(Long operationId);
+    Mono<PaginationResponse<SCAChallengeDTO>> findAllByOperationId(UUID operationId, PaginationRequest paginationRequest);
+    Mono<SCAChallengeDTO> create(UUID operationId, SCAChallengeDTO dto);
+    Mono<SCAChallengeDTO> findById(UUID operationId, UUID challengeId);
+    Mono<SCAChallengeDTO> update(UUID operationId, UUID challengeId, SCAChallengeDTO dto);
+    Mono<Void> delete(UUID operationId, UUID challengeId);
+    Mono<SCAChallengeDTO> findActiveChallengeForOperation(UUID operationId);
 
     /**
      * Validate a single challenge with the given user code (OTP).
      */
-    Mono<ValidationResultDTO> validateChallenge(Long operationId, Long challengeId, String userCode);
+    Mono<ValidationResultDTO> validateChallenge(UUID operationId, UUID challengeId, String userCode);
 }

@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for an SCA Challenge (OTP code).
@@ -18,10 +19,10 @@ import java.time.LocalDateTime;
 @SuperBuilder
 public class SCAChallengeDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long scaOperationId;
+    private UUID scaOperationId;
 
     private String challengeCode;
     private LocalDateTime createdAt;

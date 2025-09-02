@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Controller responsible for managing SCA Operations (core entity).
@@ -38,7 +39,7 @@ public class SCAOperationController {
     }
 
     @GetMapping("/{operationId}")
-    public Mono<ResponseEntity<SCAOperationDTO>> getOperation(@PathVariable Long operationId) {
+    public Mono<ResponseEntity<SCAOperationDTO>> getOperation(@PathVariable UUID operationId) {
         return operationService.findById(operationId)
                 .map(ResponseEntity::ok)
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -46,7 +47,7 @@ public class SCAOperationController {
 
     @PutMapping("/{operationId}")
     public Mono<ResponseEntity<SCAOperationDTO>> updateOperation(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @RequestBody SCAOperationDTO dto
     ) {
         return operationService.update(operationId, dto)
@@ -55,7 +56,7 @@ public class SCAOperationController {
     }
 
     @DeleteMapping("/{operationId}")
-    public Mono<ResponseEntity<Void>> deleteOperation(@PathVariable Long operationId) {
+    public Mono<ResponseEntity<Void>> deleteOperation(@PathVariable UUID operationId) {
         return operationService.delete(operationId)
                 .map(r -> ResponseEntity.noContent().<Void>build())
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -64,7 +65,7 @@ public class SCAOperationController {
     // --- SCA Flow Endpoints ---
 
     @PostMapping("/{operationId}/trigger")
-    public Mono<ResponseEntity<Void>> triggerSCA(@PathVariable Long operationId) {
+    public Mono<ResponseEntity<Void>> triggerSCA(@PathVariable UUID operationId) {
         return operationService.triggerSCA(operationId)
                 .map(r -> ResponseEntity.ok().<Void>build())
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -72,7 +73,7 @@ public class SCAOperationController {
 
     @PostMapping("/{operationId}/validate")
     public Mono<ResponseEntity<ValidationResultDTO>> validateSCA(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @RequestParam(name="userCode", required=false) String userCode
     ) {
         return operationService.validateSCA(operationId, userCode)

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -23,7 +24,7 @@ public class SCAAttemptServiceImpl implements SCAAttemptService {
     private SCAAttemptMapper mapper;
 
     @Override
-    public Mono<PaginationResponse<SCAAttemptDTO>> findAllByChallengeId(Long operationId, Long challengeId, PaginationRequest paginationRequest) {
+    public Mono<PaginationResponse<SCAAttemptDTO>> findAllByChallengeId(UUID operationId, UUID challengeId, PaginationRequest paginationRequest) {
         return PaginationUtils.paginateQuery(
                 paginationRequest,
                 mapper::toDTO,
@@ -33,7 +34,7 @@ public class SCAAttemptServiceImpl implements SCAAttemptService {
     }
 
     @Override
-    public Mono<SCAAttemptDTO> create(Long operationId, Long challengeId, SCAAttemptDTO dto) {
+    public Mono<SCAAttemptDTO> create(UUID operationId, UUID challengeId, SCAAttemptDTO dto) {
         dto.setScaChallengeId(challengeId);
         SCAAttempt entity = mapper.toEntity(dto);
         return repository.save(entity)
@@ -41,7 +42,7 @@ public class SCAAttemptServiceImpl implements SCAAttemptService {
     }
 
     @Override
-    public Mono<SCAAttemptDTO> findById(Long operationId, Long challengeId, Long attemptId) {
+    public Mono<SCAAttemptDTO> findById(UUID operationId, UUID challengeId, UUID attemptId) {
         return repository.findById(attemptId)
                 .filter(attempt -> challengeId.equals(attempt.getScaChallengeId()))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Attempt not found or does not belong to the challenge.")))
@@ -49,7 +50,7 @@ public class SCAAttemptServiceImpl implements SCAAttemptService {
     }
 
     @Override
-    public Mono<SCAAttemptDTO> update(Long operationId, Long challengeId, Long attemptId, SCAAttemptDTO dto) {
+    public Mono<SCAAttemptDTO> update(UUID operationId, UUID challengeId, UUID attemptId, SCAAttemptDTO dto) {
         return repository.findById(attemptId)
                 .filter(attempt -> challengeId.equals(attempt.getScaChallengeId()))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Attempt not found or does not belong to the challenge.")))
@@ -63,7 +64,7 @@ public class SCAAttemptServiceImpl implements SCAAttemptService {
     }
 
     @Override
-    public Mono<Void> delete(Long operationId, Long challengeId, Long attemptId) {
+    public Mono<Void> delete(UUID operationId, UUID challengeId, UUID attemptId) {
         return repository.findById(attemptId)
                 .filter(attempt -> challengeId.equals(attempt.getScaChallengeId()))
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("Attempt not found or does not belong to the challenge.")))

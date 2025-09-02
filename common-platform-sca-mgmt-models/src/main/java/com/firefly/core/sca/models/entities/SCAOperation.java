@@ -8,6 +8,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Represents the core SCA operation or "session" requiring strong customer auth.
@@ -18,7 +19,7 @@ public class SCAOperation {
 
     @Id
     @Column("id")
-    private Long id;
+    private UUID id;
 
     @Column("reference_id")
     private String referenceId;

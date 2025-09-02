@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Tracks each user attempt to enter a challenge code.
@@ -16,10 +17,10 @@ public class SCAAttempt {
 
     @Id
     @Column("id")
-    private Long id;
+    private UUID id;
 
     @Column("sca_challenge_id")
-    private Long scaChallengeId; // references sca_challenge.id
+    private UUID scaChallengeId; // references sca_challenge.id
 
     @Column("attempt_value")
     private String attemptValue; // code the user entered

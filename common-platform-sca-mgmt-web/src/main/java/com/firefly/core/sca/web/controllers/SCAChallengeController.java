@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/sca/operations/{operationId}/challenges")
@@ -21,7 +22,7 @@ public class SCAChallengeController {
 
     @GetMapping
     public Mono<ResponseEntity<PaginationResponse<SCAChallengeDTO>>> getAllChallenges(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @ParameterObject @ModelAttribute PaginationRequest paginationRequest
     ) {
         return challengeService.findAllByOperationId(operationId, paginationRequest)
@@ -32,7 +33,7 @@ public class SCAChallengeController {
 
     @PostMapping
     public Mono<ResponseEntity<SCAChallengeDTO>> createChallenge(
-            @PathVariable Long operationId,
+            @PathVariable UUID operationId,
             @RequestBody SCAChallengeDTO dto
     ) {
         return challengeService.create(operationId, dto)
@@ -41,8 +42,8 @@ public class SCAChallengeController {
 
     @GetMapping("/{challengeId}")
     public Mono<ResponseEntity<SCAChallengeDTO>> getChallenge(
-            @PathVariable Long operationId,
-            @PathVariable Long challengeId
+            @PathVariable UUID operationId,
+            @PathVariable UUID challengeId
     ) {
         return challengeService.findById(operationId, challengeId)
                 .map(ResponseEntity::ok)
@@ -51,8 +52,8 @@ public class SCAChallengeController {
 
     @PutMapping("/{challengeId}")
     public Mono<ResponseEntity<SCAChallengeDTO>> updateChallenge(
-            @PathVariable Long operationId,
-            @PathVariable Long challengeId,
+            @PathVariable UUID operationId,
+            @PathVariable UUID challengeId,
             @RequestBody SCAChallengeDTO dto
     ) {
         return challengeService.update(operationId, challengeId, dto)
@@ -62,8 +63,8 @@ public class SCAChallengeController {
 
     @DeleteMapping("/{challengeId}")
     public Mono<ResponseEntity<Void>> deleteChallenge(
-            @PathVariable Long operationId,
-            @PathVariable Long challengeId
+            @PathVariable UUID operationId,
+            @PathVariable UUID challengeId
     ) {
         return challengeService.delete(operationId, challengeId)
                 .map(r -> ResponseEntity.noContent().<Void>build())
@@ -73,8 +74,8 @@ public class SCAChallengeController {
     // --- Validate a Single Challenge ---
     @PostMapping("/{challengeId}/validate")
     public Mono<ResponseEntity<String>> validateChallenge(
-            @PathVariable Long operationId,
-            @PathVariable Long challengeId,
+            @PathVariable UUID operationId,
+            @PathVariable UUID challengeId,
             @RequestParam String userCode
     ) {
         return challengeService.validateChallenge(operationId, challengeId, userCode)

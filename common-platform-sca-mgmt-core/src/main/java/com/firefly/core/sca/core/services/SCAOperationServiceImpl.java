@@ -16,6 +16,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -54,7 +55,7 @@ public class SCAOperationServiceImpl implements SCAOperationService {
     }
 
     @Override
-    public Mono<SCAOperationDTO> findById(Long operationId) {
+    public Mono<SCAOperationDTO> findById(UUID operationId) {
         return repository.findById(operationId)
                 .map(mapper::toDTO)
                 .switchIfEmpty(Mono.error(new RuntimeException("SCA Operation not found")))
@@ -62,7 +63,7 @@ public class SCAOperationServiceImpl implements SCAOperationService {
     }
 
     @Override
-    public Mono<SCAOperationDTO> update(Long operationId, SCAOperationDTO dto) {
+    public Mono<SCAOperationDTO> update(UUID operationId, SCAOperationDTO dto) {
         return repository.findById(operationId)
                 .flatMap(existing -> {
                     SCAOperation updatedEntity = mapper.toEntity(dto);
@@ -77,7 +78,7 @@ public class SCAOperationServiceImpl implements SCAOperationService {
     }
 
     @Override
-    public Mono<Void> delete(Long operationId) {
+    public Mono<Void> delete(UUID operationId) {
         return repository.findById(operationId)
                 .flatMap(repository::delete)
                 .switchIfEmpty(Mono.error(new RuntimeException("SCA Operation not found")))
@@ -85,7 +86,7 @@ public class SCAOperationServiceImpl implements SCAOperationService {
     }
 
     @Override
-    public Mono<Void> triggerSCA(Long operationId) {
+    public Mono<Void> triggerSCA(UUID operationId) {
 
         return repository.findById(operationId)
                 .flatMap(existing -> {
@@ -105,7 +106,7 @@ public class SCAOperationServiceImpl implements SCAOperationService {
      *  4) We update the operation status to VERIFIED or FAILED depending on the validation result.
      */
     @Override
-    public Mono<ValidationResultDTO> validateSCA(Long operationId, String userCode) {
+    public Mono<ValidationResultDTO> validateSCA(UUID operationId, String userCode) {
         return repository.findById(operationId)
                 .flatMap(existingOperation -> {
 

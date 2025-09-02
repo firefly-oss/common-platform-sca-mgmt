@@ -6,6 +6,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Stores the one-time code or challenge tokens related to an SCA operation.
@@ -16,10 +17,10 @@ public class SCAChallenge {
 
     @Id
     @Column("id")
-    private Long id;
+    private UUID id;
 
     @Column("sca_operation_id")
-    private Long scaOperationId; // references sca_operation.id
+    private UUID scaOperationId; // references sca_operation.id
 
     @Column("challenge_code")
     private String challengeCode; // the one-time code/OTP token

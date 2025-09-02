@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO capturing an attempt to input a challenge code.
@@ -19,10 +20,10 @@ import java.time.LocalDateTime;
 public class SCAAttemptDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long scaChallengeId;
+    private UUID scaChallengeId;
 
     private String attemptValue;
     private LocalDateTime attemptedAt;

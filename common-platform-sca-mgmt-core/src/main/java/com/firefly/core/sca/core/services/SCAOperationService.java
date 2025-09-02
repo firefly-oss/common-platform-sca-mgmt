@@ -5,6 +5,7 @@ import com.firefly.common.core.queries.PaginationResponse;
 import com.firefly.core.sca.interfaces.dtos.SCAOperationDTO;
 import com.firefly.core.sca.interfaces.dtos.ValidationResultDTO;
 import reactor.core.publisher.Mono;
+import java.util.UUID;
 
 /**
  * Defines operations for managing the core SCAOperation entity,
@@ -15,19 +16,19 @@ public interface SCAOperationService {
     // --- CRUD Methods ---
     Mono<PaginationResponse<SCAOperationDTO>> filterAll(FilterRequest<SCAOperationDTO> filterRequest);
     Mono<SCAOperationDTO> create(SCAOperationDTO dto);
-    Mono<SCAOperationDTO> findById(Long operationId);
-    Mono<SCAOperationDTO> update(Long operationId, SCAOperationDTO dto);
-    Mono<Void> delete(Long operationId);
+    Mono<SCAOperationDTO> findById(UUID operationId);
+    Mono<SCAOperationDTO> update(UUID operationId, SCAOperationDTO dto);
+    Mono<Void> delete(UUID operationId);
 
     // --- SCA Flow Methods ---
     /**
      * Trigger the SCA operation: generate challenges, send OTP, set status to PENDING, etc.
      */
-    Mono<Void> triggerSCA(Long operationId);
+    Mono<Void> triggerSCA(UUID operationId);
 
     /**
      * Validate the entire SCA operation, possibly with a user code (OTP).
      * Returns a ValidationResultDTO indicating success/failure/locked.
      */
-    Mono<ValidationResultDTO> validateSCA(Long operationId, String userCode);
+    Mono<ValidationResultDTO> validateSCA(UUID operationId, String userCode);
 }

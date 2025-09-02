@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO for storing deeper audit logs for the SCA process.
@@ -19,13 +20,13 @@ import java.time.LocalDateTime;
 @SuperBuilder
 public class SCAAuditDTO {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
-    private Long scaOperationId;
+    private UUID scaOperationId;
 
     @FilterableId
-    private Long scaChallengeId;
+    private UUID scaChallengeId;
 
     @FilterableId
     private String partyId;

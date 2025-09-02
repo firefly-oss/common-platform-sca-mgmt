@@ -7,6 +7,7 @@ import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * Logs deeper events or metadata for compliance/audit.
@@ -17,13 +18,13 @@ public class SCAAudit {
 
     @Id
     @Column("id")
-    private Long id;
+    private UUID id;
 
     @Column("sca_operation_id")
-    private Long scaOperationId; // references sca_operation.id
+    private UUID scaOperationId; // references sca_operation.id
 
     @Column("sca_challenge_id")
-    private Long scaChallengeId; // references sca_challenge.id (optional)
+    private UUID scaChallengeId; // references sca_challenge.id (optional)
 
     @Column("party_id")
     private String partyId; // same as sca_operation, if relevant

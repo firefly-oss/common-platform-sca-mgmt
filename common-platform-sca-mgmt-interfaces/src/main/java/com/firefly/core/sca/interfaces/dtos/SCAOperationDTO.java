@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * DTO representing the core SCA Operation data exchanged over APIs.
@@ -21,7 +22,7 @@ import java.time.LocalDateTime;
 public class SCAOperationDTO {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private UUID id;
 
     @FilterableId
     private String referenceId;
